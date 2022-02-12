@@ -1,11 +1,13 @@
 using Woolworths.Groot.SmartSearch.MongoDb;
+using Woolworths.Groot.SmartSearch.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<MongoClientProvider>();
+builder.Services.AddSingleton<IMongoClientProvider, MongoClientProvider>();
+builder.Services.AddScoped<IRentSearch, RentSearch>();
 
 var app = builder.Build();
 

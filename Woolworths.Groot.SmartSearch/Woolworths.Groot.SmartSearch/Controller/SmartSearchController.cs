@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Woolworths.Groot.SmartSearch.MongoDb;
+using Woolworths.Groot.SmartSearch.Services;
 
 namespace Woolworths.Groot.SmartSearch.Controller
 {
@@ -9,19 +10,19 @@ namespace Woolworths.Groot.SmartSearch.Controller
     [ApiController]
     public class SmartSearchController : ControllerBase
     {
-        private readonly MongoClientProvider dbProvider;
+        private readonly IMongoClientProvider dbProvider;
+        private readonly IRentSearch rentSearch;
 
-        public SmartSearchController(MongoClientProvider dbProvider)
+        public SmartSearchController(IMongoClientProvider dbProvider, IRentSearch rentSearch)
         {
             this.dbProvider = dbProvider;
+            this.rentSearch = rentSearch;
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("{term}")]
+        public async Task<IActionResult> Search(string term)
         {
-            var client = new MongoClient("mongodb://admin:password@localhost:27017");
-            var db = client.GetDatabase("pluralsight").DatabaseNamespace;
-            return Ok(db);
+            return Ok(await rentSearch.SearchWithTerm(term));
         }
     }
 }
