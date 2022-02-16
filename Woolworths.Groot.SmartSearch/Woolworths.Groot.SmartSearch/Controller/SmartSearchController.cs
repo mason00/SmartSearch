@@ -10,19 +10,21 @@ namespace Woolworths.Groot.SmartSearch.Controller
     [ApiController]
     public class SmartSearchController : ControllerBase
     {
-        private readonly IMongoClientProvider dbProvider;
-        private readonly IRentSearch rentSearch;
+        //private readonly IMongoClientProvider dbProvider;
+        //private readonly IRentSearch rentSearch;
+        private readonly IProductSearch productSearch;
 
-        public SmartSearchController(IMongoClientProvider dbProvider, IRentSearch rentSearch)
+        public SmartSearchController(IProductSearch productSearch)
         {
-            this.dbProvider = dbProvider;
-            this.rentSearch = rentSearch;
+            //this.dbProvider = dbProvider;
+            //this.rentSearch = rentSearch;
+            this.productSearch = productSearch;
         }
 
         [HttpGet("{term}")]
         public async Task<IActionResult> Search(string term)
         {
-            return Ok(await rentSearch.SearchWithTerm(term));
+            return Ok(await productSearch.Search(term));
         }
     }
 }

@@ -8,3 +8,10 @@ Storage: mongoDb text search
 
 # Build and Test
 TODO: Might need to import testing data to mongo
+
+# Goals
+Auto search suggestion on brand
+Full text search on description, name
+Import data from Trader local DB, product. Done
+Client search within brand scope after it's autocompletion, then full text search on description and name
+Fuzzy search on brand

@@ -4,5 +4,6 @@
     {
         public static string DbName = "pluralsight";
         public static string RentCollection = "rent";
+        public static string ProductCollection = "product";
     }
 }

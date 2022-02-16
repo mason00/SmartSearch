@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Woolworths.Groot.SmartSearch.Constant;
 using Woolworths.Groot.SmartSearch.Model;
 using Woolworths.Groot.SmartSearch.MongoDb;
