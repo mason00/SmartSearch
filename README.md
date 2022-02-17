@@ -15,3 +15,6 @@ Full text search on description, name
 Import data from Trader local DB, product. Done
 Client search within brand scope after it's autocompletion, then full text search on description and name
 Fuzzy search on brand
+
+# Notes
+Mongo Atlas provider more text search options than mongodb server, like autocomplete, fuzzy.
