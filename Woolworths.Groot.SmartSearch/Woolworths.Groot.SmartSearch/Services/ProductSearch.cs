@@ -31,7 +31,7 @@ namespace Woolworths.Groot.SmartSearch.Services
         public async Task<List<Product>> Search(string term)
         {
             var filter = Builders<Product>.Filter.Text(term);
-            return await Product.Find(filter).Limit(50).ToListAsync();
+            return await Product.Find(filter).Limit(20).ToListAsync();
         }
     }
 }

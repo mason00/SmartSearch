@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
-using Woolworths.Groot.SmartSearch.MongoDb;
+﻿using Microsoft.AspNetCore.Mvc;
 using Woolworths.Groot.SmartSearch.Services;
 
 namespace Woolworths.Groot.SmartSearch.Controller
@@ -10,30 +7,21 @@ namespace Woolworths.Groot.SmartSearch.Controller
     [ApiController]
     public class SmartSearchController : ControllerBase
     {
-        //private readonly IMongoClientProvider dbProvider;
-        //private readonly IRentSearch rentSearch;
         private readonly IProductSearch productSearch;
-        private readonly IFuzzySearchOnProduct fuzzySearchOnProduct;
+        private readonly ISaveSearchTermService saveSearchTermService;
 
-        public SmartSearchController(IProductSearch productSearch, IFuzzySearchOnProduct fuzzySearchOnProduct)
+        public SmartSearchController(IProductSearch productSearch, ISaveSearchTermService saveSearchTermService)
         {
-            //this.dbProvider = dbProvider;
-            //this.rentSearch = rentSearch;
             this.productSearch = productSearch;
-            this.fuzzySearchOnProduct = fuzzySearchOnProduct;
+            this.saveSearchTermService = saveSearchTermService;
         }
 
         [HttpGet("{term}")]
         public async Task<IActionResult> Search(string term)
         {
-            return Ok(await productSearch.Search(term));
-        }
+            saveSearchTermService.SaveTerm(term);
 
-        [HttpGet("fuzzy/{text}")]
-        public async Task<IActionResult> Fuzzy(string text)
-        {
-            //return Ok(await fuzzySearchOnProduct.FuzzySearchProduct(text));
-            return Ok(await fuzzySearchOnProduct.FuzzySearchBsonProduct(text));
+            return Ok(await productSearch.Search(term));
         }
     }
 }
