@@ -11,6 +11,8 @@ builder.Services.AddScoped<IRentSearch, RentSearch>();
 builder.Services.AddScoped<IProductSearch, ProductSearch>();
 builder.Services.AddScoped<IFuzzySearchOnProduct, FuzzySearchOnProduct>();
 builder.Services.AddScoped<ISaveSearchTermService, SaveSearchTermService>();
+builder.Services.AddScoped<IAutocompleteOnBrandService, AutocompleteOnBrandService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

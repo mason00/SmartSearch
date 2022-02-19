@@ -6,5 +6,6 @@
         public static string RentCollection = "rent";
         public static string ProductCollection = "product";
         public static string TermCollection = "term";
+        public static string BrandCollection = "brand";
     }
 }
