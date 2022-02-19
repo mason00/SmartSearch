@@ -15,5 +15,13 @@ namespace Woolworths.Groot.SmartSearch.Model
         public string Brand { get; set; }
         [BsonElement("Description")]
         public string Description { get; set; }
+        public HighLight[] HighLights { get; set; }
+    }
+
+    [BsonIgnoreExtraElements]
+    public class HighLight
+    {
+        [BsonElement("path")]
+        public string Path { get; set; }
     }
 }

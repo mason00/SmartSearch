@@ -9,6 +9,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IMongoClientProvider, MongoClientProvider>();
 builder.Services.AddScoped<IRentSearch, RentSearch>();
 builder.Services.AddScoped<IProductSearch, ProductSearch>();
+builder.Services.AddScoped<IFuzzySearchOnProduct, FuzzySearchOnProduct>();
 
 var app = builder.Build();
 
