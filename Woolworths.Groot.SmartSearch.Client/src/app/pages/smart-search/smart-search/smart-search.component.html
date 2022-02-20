@@ -1,4 +1,8 @@
 <div>
-<h1>smart-search works!</h1>
-<input type="text" [(ngModel)]="searchText" (keypress)="handlekeypress($event)">
+    <h1>smart-search works!</h1>
+    <input type="text" [(ngModel)]="searchText" (keypress)="handlekeypress($event)">
+    <app-fuzzy-search-result 
+        *ngIf="fuzzySearchResult.length > 0"
+        [fuzzySearchResult]="fuzzySearchResult">
+    </app-fuzzy-search-result>
 </div>

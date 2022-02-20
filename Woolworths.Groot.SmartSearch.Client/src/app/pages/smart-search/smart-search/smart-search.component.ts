@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductSearchResponse } from '@core/services/smartsearch/productSearchResponse';
 import { SmartsearchService } from '@core/services/smartsearch/smartsearch.service';
 
 @Component({
@@ -8,6 +9,7 @@ import { SmartsearchService } from '@core/services/smartsearch/smartsearch.servi
 })
 export class SmartSearchComponent implements OnInit {
   searchText = '';
+  fuzzySearchResult: ProductSearchResponse[] = [{brand: 'lavazza', name: 'ui test product', description: 'test description'}];
 
   constructor(private smartsearchService: SmartsearchService) { }
 
@@ -18,6 +20,7 @@ export class SmartSearchComponent implements OnInit {
   handlekeypress(e: KeyboardEvent) {
     if (e.code == 'Enter')
       // console.log(`searchText: ${this.searchText}`);
-      this.smartsearchService.searchProduct(this.searchText);
+      this.smartsearchService.searchProduct(this.searchText)
+        .subscribe(r => this.fuzzySearchResult = r);
   }
 }

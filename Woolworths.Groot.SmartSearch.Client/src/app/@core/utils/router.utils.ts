@@ -1,7 +1,7 @@
 export const ROUTER_UTILS = {
   config: {
     base: {
-      home: '',
+      home: 'home',
       dashboard: 'dashboard',
     },
     smartSearch: {
