@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "npx husky install",
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
