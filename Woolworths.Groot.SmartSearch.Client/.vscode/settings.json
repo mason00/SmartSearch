@@ -11,5 +11,7 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "css.validate": false
+  "css.validate": false,
+  "appService.defaultWebAppToDeploy": "/subscriptions/7f1f7b34-ca88-4023-b19f-dc45ea86f7f7/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/smartsearchangular",
+  "appService.deploySubpath": "./dist/angular-boilerplate"
 }
