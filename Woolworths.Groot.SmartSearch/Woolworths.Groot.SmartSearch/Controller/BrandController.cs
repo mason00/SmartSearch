@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Woolworths.Groot.SmartSearch.Services;
 
 namespace Woolworths.Groot.SmartSearch.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors]
     public class BrandController : ControllerBase
     {
         private readonly IAutocompleteOnBrandService autocompleteOnBrandService;

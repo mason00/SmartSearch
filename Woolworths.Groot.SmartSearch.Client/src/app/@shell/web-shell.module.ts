@@ -19,7 +19,7 @@ const APP_ROUTES: Routes = [
   {
     path: ROUTER_UTILS.config.base.home,
     loadChildren: async () =>
-      (await import('@pages/home/home.module')).HomeModule,
+      (await import('@pages/smart-search/smart-search.module')).SmartSearchModule,
   },
   {
     path: ROUTER_UTILS.config.base.dashboard,

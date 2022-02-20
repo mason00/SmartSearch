@@ -4,6 +4,9 @@ export const ROUTER_UTILS = {
       home: '',
       dashboard: 'dashboard',
     },
+    smartSearch: {
+      home: '',
+    },
     auth: {
       root: 'auth',
       signIn: 'sign-in',

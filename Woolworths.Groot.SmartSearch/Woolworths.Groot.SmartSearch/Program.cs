@@ -13,6 +13,17 @@ builder.Services.AddScoped<IFuzzySearchOnProduct, FuzzySearchOnProduct>();
 builder.Services.AddScoped<ISaveSearchTermService, SaveSearchTermService>();
 builder.Services.AddScoped<IAutocompleteOnBrandService, AutocompleteOnBrandService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.SetIsOriginAllowed(org => true)
+          .AllowAnyMethod()
+          .AllowAnyHeader()
+          .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,6 +34,8 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors();
 
 app.UseAuthorization();
 
