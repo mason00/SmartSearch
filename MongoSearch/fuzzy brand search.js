@@ -1,29 +1,43 @@
-db.product.aggregate(
-[
-    {
-        '$search': {
-            'index': 'fuzzy brand', 
-            'text': {
-                'query': 'supee', 
+db.product.aggregate(
+[
+    {
+        '$search': {
+            'index': 'fuzzy brand', 
+            'text': {
+                'query': 'supee', 
+                'path': [
+                    'Brand', 'GenericProductName', 'Description'
+                ], 
+                'fuzzy': {}
+            }, 
+            'highlight': {
                 'path': [
-                    'Brand'
-                ], 
-                'fuzzy': {}
-            }, 
-            'highlight': {
-                'path': 'Brand'
-            }
-        }
-    }, {
+                    'Brand', 'GenericProductName', 'Description'
+                ]
+            }
+        }
+    },
+    {
         '$project': {
+            '_id': 1,
+            'Description': 1,
+            'Brand': 1,
+            'GenericProductName': 1,
+            'score': {
+                '$meta': 'searchScore'
+            },
             'highlight': {
                 '$meta': 'searchHighlights'
-            }, 
-            'Brand': 1
-        }
-    }
-]
-  )
-    
-    
+            }
+        }
+    },
+    {
+                '$sort': {
+                  'score': -1
+               }
+            }
+]
+)
+    
+    
  

@@ -1,5 +1,4 @@
 ﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Woolworths.Groot.SmartSearch.Constant;
 using Woolworths.Groot.SmartSearch.Model;
@@ -29,13 +28,32 @@ namespace Woolworths.Groot.SmartSearch.Services
                         'fuzzy': {}
                     }, 
                     'highlight': {
-                        'path': 'Brand'
+                        'path': ['Brand', 'GenericProductName', 'Description']
                     }
                 }
             }";
 
+            var projection = @"{
+                    '_id': 1,
+                    'Stockcode': 1,
+                    'Description': 1,
+                    'Brand': 1,
+                    'GenericProductName': 1,
+                    'score': {
+                        '$meta': 'searchScore'
+                    },
+                    'highlight': {
+                        '$meta': 'searchHighlights'
+                    }
+            }";
+
+            var sort = @"{
+                    'score': -1
+            }";
             var aggregatePipe = new EmptyPipelineDefinition<BsonDocument>()
-                .AppendStage<BsonDocument, BsonDocument, Product>(fuzzySearch)
+                .AppendStage<BsonDocument, BsonDocument, BsonDocument>(fuzzySearch)
+                .Project<BsonDocument, BsonDocument, Product>(projection)
+                .Sort(sort)
                 .Limit(20)
             ;
 

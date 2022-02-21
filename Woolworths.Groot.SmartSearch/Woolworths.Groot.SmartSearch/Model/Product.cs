@@ -15,7 +15,11 @@ namespace Woolworths.Groot.SmartSearch.Model
         public string Brand { get; set; }
         [BsonElement("Description")]
         public string Description { get; set; }
+        [BsonElement("highlight")]
         public HighLight[] HighLights { get; set; }
+        [BsonElement("score")]
+        public double Score { get; set; }
+
     }
 
     [BsonIgnoreExtraElements]
@@ -23,5 +27,15 @@ namespace Woolworths.Groot.SmartSearch.Model
     {
         [BsonElement("path")]
         public string Path { get; set; }
+        [BsonElement("texts")]
+        public Hit[] Texts { get; set; }
+    }
+
+    public class Hit
+    {
+        [BsonElement("value")]
+        public string Value { get; set; }
+        [BsonElement("type")]
+        public string Type { get; set; }
     }
 }
