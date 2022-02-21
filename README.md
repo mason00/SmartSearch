@@ -10,14 +10,15 @@ Storage: mongoDb text search
 TODO: Might need to import testing data to mongo
 
 # Goals
-Auto search suggestion on brand
 Full text search on description, name. Done
 Import data from Trader local DB, product. Done
-Client search within brand scope after it's autocompletion, then full text search on description and name
 Fuzzy search on brand, description, name. Done
+Deploy to cloud. Done
 
 # Notes
 Mongo Atlas provider more text search options than mongodb server, like autocomplete, fuzzy.
 
 # TODO
-Deploy to cloud.
+fuzzy search score, highlights
+Auto search suggestion on brand
+Client search within brand scope after it's autocompletion, then full text search on description and name

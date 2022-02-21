@@ -1,0 +1,13 @@
+MongoDB text search: only match full word, no fuzzy.
+Sample: fulltext search.js
+
+Mongo Atlas autocomplete search: split word into gram, allow fuzzy, like maxEdits, preFixlength.
+Sample: autocomplete brand search.js
+
+Mongo Atlas text search: tokenize text, allow fuzzy.
+fuzzy brand search
+
+Compound index
+Order is important, first field in index is the main one, query uses first field will pickup this index, then the following field is used based on first field's result.
+It called index prefix.
+use explain() to see if index gets picked.

@@ -1,0 +1,1 @@
+db.getCollection('product').find({ $text: { $search: 'milk' } })
