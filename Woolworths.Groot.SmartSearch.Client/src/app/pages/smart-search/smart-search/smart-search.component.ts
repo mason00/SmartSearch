@@ -9,18 +9,34 @@ import { SmartsearchService } from '@core/services/smartsearch/smartsearch.servi
 })
 export class SmartSearchComponent implements OnInit {
   searchText = '';
-  fuzzySearchResult: ProductSearchResponse[] = [{brand: 'lavazza', name: 'ui test product', description: 'test description'}];
+  searchType = 'fullText';
+
+  fuzzySearchResult: ProductSearchResponse[] = [];
+  fullTextSearchResult: ProductSearchResponse[] = [];
 
   constructor(private smartsearchService: SmartsearchService) { }
 
   ngOnInit(): void {
-    
+
   }
 
   handlekeypress(e: KeyboardEvent) {
-    if (e.code == 'Enter')
-      // console.log(`searchText: ${this.searchText}`);
-      this.smartsearchService.searchProduct(this.searchText)
-        .subscribe(r => this.fuzzySearchResult = r);
+    if (e.code === 'Enter') {
+      console.log(`searchType: ${this.searchType}`);
+
+      this.fullTextSearchResult = [];
+      this.fuzzySearchResult = [];
+
+      switch (this.searchType) {
+        case 'fullText' :
+          this.smartsearchService.fullTextSearchProduct(this.searchText)
+          .subscribe(r => this.fullTextSearchResult = r);
+          break;
+        case 'fuzzy' :
+          this.smartsearchService.searchProduct(this.searchText)
+          .subscribe(r => this.fuzzySearchResult = r);
+          break;
+      }
+    }
   }
 }

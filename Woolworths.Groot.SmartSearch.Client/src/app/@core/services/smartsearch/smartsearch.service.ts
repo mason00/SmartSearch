@@ -19,4 +19,13 @@ export class SmartsearchService {
       // .subscribe(data => console.log(`data: ${data}`))
       ;
   }
+
+  fullTextSearchProduct(text: string): Observable<ProductSearchResponse[]>{
+    console.log(`smartSearchUrl ${environment.smartSearchUrl}`);
+
+    const searchUrl = `${environment.smartSearchUrl}/api/SmartSearch/${text}`;
+    return this.http.get<ProductSearchResponse[]>(searchUrl)
+      // .subscribe(data => console.log(`data: ${data}`))
+      ;
+  }
 }
