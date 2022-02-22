@@ -19,7 +19,8 @@ namespace Woolworths.Groot.SmartSearch.Model
         public HighLight[] HighLights { get; set; }
         [BsonElement("score")]
         public double Score { get; set; }
-
+        [BsonElement("textScore")]
+        public double FullTextScore { get; set; }
     }
 
     [BsonIgnoreExtraElements]
