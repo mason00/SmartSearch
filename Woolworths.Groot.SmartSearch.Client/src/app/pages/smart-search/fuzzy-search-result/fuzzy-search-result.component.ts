@@ -9,11 +9,14 @@ import { ProductSearchResponse } from '@core/services/smartsearch/productSearchR
 export class FuzzySearchResultComponent implements OnInit {
   @Input()
   fuzzySearchResult: ProductSearchResponse[] = [];
-  displayedColumns: string[] = ['name', 'brand', 'description'];
+  // displayedColumns: string[] = ['name', 'brand', 'description'];
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  getImgUrl(stockcode:number | undefined): string {
+    return `https://cdn0.woolworths.media/content/wowproductimages/medium/${stockcode}.jpg`;
+  }
 }

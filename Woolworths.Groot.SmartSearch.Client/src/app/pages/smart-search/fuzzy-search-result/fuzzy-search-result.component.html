@@ -10,6 +10,7 @@
 <table class="table-fixed text-lg mt-10">
   <thead>
     <tr class="text-left">
+      <th class="p-4 border-collapse border border-slate-400"></th>
       <th class="p-4 border-collapse border border-slate-400">Name</th>
       <th class="p-4 border-collapse border border-slate-400">Brand</th>
       <th class="p-4 border-collapse border border-slate-400">Description</th>
@@ -17,9 +18,10 @@
   </thead>
   <tbody>
     <tr class="border border-slate-300" *ngFor="let fuzzyResult of fuzzySearchResult">
-      <td class="p-4 border-collapse border border-slate-400">{{fuzzyResult.name}}</td>
-      <td class="p-4 border-collapse border border-slate-400">{{fuzzyResult.brand}}</td>
-      <td class="p-4 border-collapse border border-slate-400">{{fuzzyResult.description}}</td>
+      <td class="p-4 border-collapse border border-slate-400"><img [src]="getImgUrl(fuzzyResult.stockcode)" [title]="fuzzyResult.stockcode"></td>
+      <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.name"></span></td>
+      <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.brand"></span></td>
+      <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.description"></span></td>
     </tr>
   </tbody>
 </table>
