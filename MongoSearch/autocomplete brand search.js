@@ -6,27 +6,36 @@ db.brand.aggregate(
     $search: {
       index: 'default',
       autocomplete: {
-        query: 'lova',
+        query: 'lov',
         path: 'BrandName',
         fuzzy: { maxEdits: 1, prefixLength: 0 }
-      },
-      highlight: { 
-        path: "BrandName"
+      },
+      highlight: { 
+        path: "BrandName"
       }
     }
+  },
+  {
+      $project: {
+                   _id: 1,
+          BrandName: 1,
+
+                  highlights: { $meta: 'searchHighlights' },
+     }
   },
   {
       $project: {
-           _id: 1,
-                  BrandName: 1,
-                  highlights: { $meta: 'searchHighlights' },
-                  Score: { $meta: 'searchScore' },
+         _id: 1,
+          BrandName: 1,
+           score: '$highlights.score',
+          highlights: { $meta: 'searchHighlights' },
      }
   },
-  {
-                $sort: {
-                  score: 1
-               }
+  
+  {
+                $sort: {
+                  score: -1
+               }
             }
 ]
 )

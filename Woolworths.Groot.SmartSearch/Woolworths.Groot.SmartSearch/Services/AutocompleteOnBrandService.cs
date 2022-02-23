@@ -30,13 +30,36 @@ namespace Woolworths.Groot.SmartSearch.Services
                     query: '" + term + @"',
                     path: 'BrandName',
                     fuzzy: { maxEdits: 1, prefixLength: 0 }
-                  }
+                  },
+                    highlight: { 
+                        path: 'BrandName'
+                    }
                 }
+            }";
+
+            var projectHighLights = @"{
+                _id: 1,
+                BrandName: 1,
+                highlight: { $meta: 'searchHighlights' }
+            }";
+
+            var projectScore = @"{
+                _id: 1,
+                BrandName: 1,
+                highlight: 1,
+                score: { $first: '$highlight.score' },
+            }";
+
+            var sort = @"{
+                    'score': -1
             }";
 
             var aggregatePipe = new EmptyPipelineDefinition<BsonDocument>()
                 .AppendStage<BsonDocument, BsonDocument, BsonDocument>(autocomplete)
-                .Limit(20)
+                .Project(projectHighLights)
+                .Project(projectScore)
+                .Sort(sort)
+                .Limit(10)
             ;
 
             var result = await brandCollection.AggregateAsync(aggregatePipe);
