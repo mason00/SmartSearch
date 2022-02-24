@@ -1,12 +1,22 @@
 <div>
     <h1>smart-search works!</h1>
-    <input type="text" [(ngModel)]="searchText" [(ngModel)]="autocompleteSearchResult" (keypress)="handlekeypress($event)" [ngbTypeahead]="search" />
+    <input type="text" [(ngModel)]="searchText" [(ngModel)]="autocompleteSearchResult" 
+      (keypress)="handlekeypress($event)" [ngbTypeahead]="search"
+      (selectItem)="itemSelected($event)" />
     <select name="searchType" id="searchType" [(ngModel)]="searchType">
       <option value="fullText">Full Text</option>
       <option value="fuzzy">Fuzzy</option>
       <option value="autocomplete">Autocomplete</option>
       <option value="Mighty">Mighty</option>
     </select>
+    <div *ngIf="selectedBrand" class="text-xl py-2">
+        <span>Selected brand: {{selectedBrand}} </span>
+        <a (click)="removeSelectedBrand()" class="hover">
+          <svg xmlns="http://www.w3.org/2000/svg" class="inline h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </a>
+    </div>
     <app-fuzzy-search-result
       *ngIf="fuzzySearchResult.length > 0"
       [fuzzySearchResult]="fuzzySearchResult">

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BrandSearchResponse } from '@core/services/smartsearch/brandSearchResponse';
 import { ProductSearchResponse } from '@core/services/smartsearch/productSearchResponse';
 import { SmartsearchService } from '@core/services/smartsearch/smartsearch.service';
+import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { catchError, debounceTime, distinctUntilChanged, Observable, of, OperatorFunction, switchMap, tap } from 'rxjs';
 
 @Component({
@@ -14,6 +15,7 @@ export class SmartSearchComponent implements OnInit {
   searchType = 'fullText';
   searching = false;
   searchFailed = false;
+  selectedBrand = '';
 
   fuzzySearchResult: ProductSearchResponse[] = [];
   fullTextSearchResult: ProductSearchResponse[] = [];
@@ -38,11 +40,27 @@ export class SmartSearchComponent implements OnInit {
           .subscribe(r => this.fullTextSearchResult = r);
           break;
         case 'fuzzy' :
-          this.smartsearchService.searchProduct(this.searchText)
-          .subscribe(r => this.fuzzySearchResult = transformFuzzyResult(r));
+        case 'autocomplete' :
+          if (this.selectedBrand === '') {
+            this.smartsearchService.searchProduct(this.searchText)
+            .subscribe(r => this.fuzzySearchResult = transformFuzzyResult(r));
+          } else {
+            this.smartsearchService.searchProductWithBrand(this.searchText)
+            .subscribe(r => this.fuzzySearchResult = transformFuzzyResult(r));
+          }
           break;
       }
     }
+  }
+
+  removeSelectedBrand(){
+    this.selectedBrand = '';
+  }
+
+  itemSelected(selectedItem: NgbTypeaheadSelectItemEvent) {
+    this.selectedBrand = selectedItem.item;
+    this.searchText = '';
+    selectedItem.preventDefault();
   }
 
   search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
@@ -51,7 +69,7 @@ export class SmartSearchComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term => {
-        if (this.searchType === 'autocomplete'){
+        if (this.searchType === 'autocomplete' && this.selectedBrand === ''){
           return this.smartsearchService.autocompleteOnBrand(term).pipe(
             switchMap((results: BrandSearchResponse[]) => {
               return of(results.map(x => x.brandName));

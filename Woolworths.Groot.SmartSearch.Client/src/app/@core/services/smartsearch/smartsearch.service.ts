@@ -9,6 +9,9 @@ import { ProductSearchResponse } from './productSearchResponse';
   providedIn: 'root'
 })
 export class SmartsearchService {
+  searchProductWithBrand(searchText: string): Observable<ProductSearchResponse[]>{
+    throw new Error('Method not implemented.');
+  }
 
   constructor(private http: HttpClient) { }
 
