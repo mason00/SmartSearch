@@ -1,6 +1,6 @@
 <div>
     <h1>smart-search works!</h1>
-    <input type="text" [(ngModel)]="searchText" (keypress)="handlekeypress($event)">
+    <input type="text" [(ngModel)]="searchText" [(ngModel)]="autocompleteSearchResult" (keypress)="handlekeypress($event)" [ngbTypeahead]="search" />
     <select name="searchType" id="searchType" [(ngModel)]="searchType">
       <option value="fullText">Full Text</option>
       <option value="fuzzy">Fuzzy</option>

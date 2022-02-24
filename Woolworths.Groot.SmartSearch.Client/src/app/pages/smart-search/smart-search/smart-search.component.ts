@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { BrandSearchResponse } from '@core/services/smartsearch/brandSearchResponse';
 import { ProductSearchResponse } from '@core/services/smartsearch/productSearchResponse';
 import { SmartsearchService } from '@core/services/smartsearch/smartsearch.service';
+import { catchError, debounceTime, distinctUntilChanged, Observable, of, OperatorFunction, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-smart-search',
   templateUrl: './smart-search.component.html',
-  styleUrls: ['./smart-search.component.css']
+  styleUrls: ['./smart-search.component.css'],
 })
 export class SmartSearchComponent implements OnInit {
   searchText = '';
   searchType = 'fullText';
+  searching = false;
+  searchFailed = false;
 
   fuzzySearchResult: ProductSearchResponse[] = [];
   fullTextSearchResult: ProductSearchResponse[] = [];
+  autocompleteSearchResult: BrandSearchResponse[] = [];
 
   constructor(private smartsearchService: SmartsearchService) { }
 
@@ -39,20 +44,43 @@ export class SmartSearchComponent implements OnInit {
       }
     }
   }
-}
+
+  search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => this.searching = true),
+      switchMap(term => {
+        if (this.searchType === 'autocomplete'){
+          return this.smartsearchService.autocompleteOnBrand(term).pipe(
+            switchMap((results: BrandSearchResponse[]) => {
+              return of(results.map(x => x.brandName));
+            }),
+            tap(() => this.searchFailed = false),
+            catchError(() => {
+              this.searchFailed = true;
+              return of([]);
+            }))
+          }
+        return of([]);
+      }),
+      tap(() => this.searching = false)
+    )
+  }
+
 function transformFuzzyResult(r: ProductSearchResponse[]): ProductSearchResponse[] {
    r.forEach(result => {
-    var brandHightLight = highLightPath(result, 'Brand');
+    const brandHightLight = highLightPath(result, 'Brand');
     if (brandHightLight) {
       result.brand = brandHightLight;
     }
 
-    var nameHightLight = highLightPath(result, 'GenericProductName');
+    const nameHightLight = highLightPath(result, 'GenericProductName');
     if (nameHightLight) {
       result.name = nameHightLight;
     }
-    
-    var descHightLight = highLightPath(result, 'Description');
+
+    const descHightLight = highLightPath(result, 'Description');
     if (descHightLight) {
       result.description = descHightLight;
     }
@@ -62,8 +90,8 @@ function transformFuzzyResult(r: ProductSearchResponse[]): ProductSearchResponse
 }
 
 function highLightPath(result: ProductSearchResponse, path: string) {
-  var nameHighLight = result.highLights?.find(x => x.path === path);
-  var highLightMark = '';
+  const nameHighLight = result.highLights?.find(x => x.path === path);
+  let highLightMark = '';
   if (nameHighLight) {
     nameHighLight.texts?.forEach(c => {
       highLightMark = c.type === 'hit' ? highLightMark + `<mark>${c.value}</mark>` : highLightMark + c.value;
@@ -72,4 +100,3 @@ function highLightPath(result: ProductSearchResponse, path: string) {
   }
   return highLightMark;
 }
-
