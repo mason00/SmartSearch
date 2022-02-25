@@ -9,32 +9,36 @@ db.product.aggregate(
                     'Brand', 'GenericProductName', 'Description'
                 ], 
                 'fuzzy': {}
-            }, 
+            },
+            'queryString': {
+                'defaultPath': 'Brand',
+                'query': 'Rocky AND (IV OR 4 OR Four)'
+            },
             'highlight': {
-                'path': [
-                    'Brand', 'GenericProductName', 'Description'
+                'path': [
+                    'Brand', 'GenericProductName', 'Description'
                 ]
             }
         }
-    },
+    },
     {
-        '$project': {
+        '$project': {
             '_id': 1,
             'Description': 1,
-            'Brand': 1,
-            'GenericProductName': 1,
-            'score': {
-                '$meta': 'searchScore'
-            },
-            'highlight': {
-                '$meta': 'searchHighlights'
+            'Brand': 1,
+            'GenericProductName': 1,
+            'score': {
+                '$meta': 'searchScore'
+            },
+            'highlight': {
+                '$meta': 'searchHighlights'
             }
         }
-    },
-    {
-                '$sort': {
-                  'score': -1
-               }
+    },
+    {
+                '$sort': {
+                  'score': -1
+               }
             }
 ]
 )

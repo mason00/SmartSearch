@@ -57,16 +57,17 @@ namespace Woolworths.Groot.SmartSearch.Services
             var aggregatePipe = new EmptyPipelineDefinition<BsonDocument>()
                 .AppendStage<BsonDocument, BsonDocument, BsonDocument>(autocomplete)
                 .Project(projectHighLights)
-                .Project(projectScore)
+                .Project<BsonDocument, BsonDocument, Brand>(projectScore)
                 .Sort(sort)
                 .Limit(10)
             ;
 
             var result = await brandCollection.AggregateAsync(aggregatePipe);
             var bsonBrands = await result.ToListAsync();
+            return bsonBrands;
 
-            bsonBrands.ForEach(b => brands.Add(BsonSerializer.Deserialize<Brand>(b)));
-            return brands;
+            //bsonBrands.ForEach(b => brands.Add(BsonSerializer.Deserialize<Brand>(b)));
+            //return brands;
         }
     }
 }

@@ -23,8 +23,18 @@ namespace Woolworths.Groot.SmartSearch.Controller
         {
             saveSearchTermService.SaveTerm(text);
 
-            //return Ok(await fuzzySearchOnProduct.FuzzySearchProduct(text));
             return Ok(await fuzzySearchOnProduct.FuzzySearchBsonProduct(text));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> FuzzySearch([FromQuery] string brand, [FromQuery] string text)
+        {
+            if (brand == null || text == null) return BadRequest();
+
+            var queryString = HttpContext.Request.QueryString.Value;
+            saveSearchTermService.SaveTerm(queryString);
+
+            return Ok(await fuzzySearchOnProduct.FuzzySearchWithBrand(brand, text));
         }
     }
 }

@@ -7,5 +7,6 @@ namespace Woolworths.Groot.SmartSearch.Services
     {
         Task<List<Product>> FuzzySearchProduct(string text);
         Task<List<Product>> FuzzySearchBsonProduct(string text);
+        Task<List<Product>> FuzzySearchWithBrand(string brand, string text);
     }
 }
