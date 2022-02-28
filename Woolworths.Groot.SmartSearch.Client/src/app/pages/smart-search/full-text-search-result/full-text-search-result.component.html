@@ -11,7 +11,9 @@
   </thead>
   <tbody>
     <tr class="border border-slate-300" *ngFor="let fullTextResult of fullTextSearchResult">
-      <td class="p-4 border-collapse border border-slate-400"><img [src]="getImgUrl(fullTextResult.stockcode)" [title]="fullTextResult.stockcode"></td>
+      <td class="p-4 border-collapse border border-slate-400">
+        <app-stock-link [stockcode]="fullTextResult.stockcode" [searchText]="searchText"></app-stock-link>
+      </td>
       <td class="p-4 border-collapse border border-slate-400">{{fullTextResult.name}}</td>
       <td class="p-4 border-collapse border border-slate-400">{{fullTextResult.brand}}</td>
       <td class="p-4 border-collapse border border-slate-400">{{fullTextResult.description}}</td>

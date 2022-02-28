@@ -6,31 +6,38 @@ import { BrandSearchResponse } from './brandSearchResponse';
 import { ProductSearchResponse } from './productSearchResponse';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SmartsearchService {
-  searchProductWithBrand(brand: string, searchText: string): Observable<ProductSearchResponse[]>{
+  saveSearchLinkOpenInfo(link: string, searchText: string | undefined) {
+    console.log(`link: ${link}, searchText: ${searchText}`);
+  }
+
+  searchProductWithBrand(
+    brand: string,
+    searchText: string,
+  ): Observable<ProductSearchResponse[]> {
     const searchUrl = `${environment.smartSearchUrl}/api/ProductSearch?brand=${brand}&text=${searchText}`;
     return this.http.get<ProductSearchResponse[]>(searchUrl);
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  searchProduct(text: string): Observable<ProductSearchResponse[]>{
+  searchProduct(text: string): Observable<ProductSearchResponse[]> {
     console.log(`smartSearchUrl ${environment.smartSearchUrl}`);
 
     const searchUrl = `${environment.smartSearchUrl}/api/ProductSearch/${text}`;
     return this.http.get<ProductSearchResponse[]>(searchUrl);
   }
 
-  fullTextSearchProduct(text: string): Observable<ProductSearchResponse[]>{
+  fullTextSearchProduct(text: string): Observable<ProductSearchResponse[]> {
     console.log(`smartSearchUrl ${environment.smartSearchUrl}`);
 
     const searchUrl = `${environment.smartSearchUrl}/api/SmartSearch/${text}`;
     return this.http.get<ProductSearchResponse[]>(searchUrl);
   }
 
-  autocompleteOnBrand(text: string): Observable<BrandSearchResponse[]>{
+  autocompleteOnBrand(text: string): Observable<BrandSearchResponse[]> {
     console.log(`smartSearchUrl ${environment.smartSearchUrl}`);
 
     const searchUrl = `${environment.smartSearchUrl}/api//Brand/autocomplete/${text}`;

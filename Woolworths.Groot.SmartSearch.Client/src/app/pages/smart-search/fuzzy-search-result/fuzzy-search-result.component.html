@@ -18,7 +18,9 @@
   </thead>
   <tbody>
     <tr class="border border-slate-300" *ngFor="let fuzzyResult of fuzzySearchResult">
-      <td class="p-4 border-collapse border border-slate-400"><img [src]="getImgUrl(fuzzyResult.stockcode)" [title]="fuzzyResult.stockcode"></td>
+      <td class="p-4 border-collapse border border-slate-400">
+        <app-stock-link [stockcode]="fuzzyResult.stockcode" [searchText]="searchText"></app-stock-link>
+      </td>
       <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.name"></span></td>
       <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.brand"></span></td>
       <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.description"></span></td>
@@ -31,17 +33,17 @@
         <th mat-header-cell *matHeaderCellDef> Name </th>
         <td mat-cell *matCellDef="let fuzzyResult"> {{fuzzyResult.name}} </td>
       </ng-container>
-    
+
       <ng-container matColumnDef="brand">
         <th mat-header-cell *matHeaderCellDef> Brand </th>
         <td mat-cell *matCellDef="let fuzzyResult"> {{fuzzyResult.brand}} </td>
       </ng-container>
-    
+
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef> Description </th>
         <td mat-cell *matCellDef="let fuzzyResult"> {{fuzzyResult.description}} </td>
       </ng-container>
-    
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table> -->

@@ -28,10 +28,14 @@
     <div *ngIf="noResult" class="text-3xl border-solid border-2 my-8 mx-0 inline-block p-2 rounded-lg text-red-600">No result</div>
     <app-fuzzy-search-result
       *ngIf="fuzzySearchResult.length > 0"
-      [fuzzySearchResult]="fuzzySearchResult">
+      [fuzzySearchResult]="fuzzySearchResult"
+      [searchText]="searchText"
+    >
     </app-fuzzy-search-result>
     <app-full-text-search-result
         *ngIf="fullTextSearchResult.length > 0"
-        [fullTextSearchResult]="fullTextSearchResult">
+        [fullTextSearchResult]="fullTextSearchResult"
+        [searchText]="searchText"
+    >
     </app-full-text-search-result>
 </div>
