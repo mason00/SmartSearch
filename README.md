@@ -29,4 +29,5 @@ Mongo Atlas provider more text search options than mongodb server, like autocomp
 # TODO
 
 link on img, save the click with search context
+NgRx store to trigger link click action
 Split Product model and product fuzzy search result
