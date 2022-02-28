@@ -16,6 +16,7 @@ export class SmartSearchComponent implements OnInit {
   searching = false;
   searchFailed = false;
   selectedBrand = '';
+  noResult = false;
 
   fuzzySearchResult: ProductSearchResponse[] = [];
   fullTextSearchResult: ProductSearchResponse[] = [];
@@ -36,21 +37,27 @@ export class SmartSearchComponent implements OnInit {
 
       switch (this.searchType) {
         case 'fullText' :
+          this.noResult = false;
           this.smartsearchService.fullTextSearchProduct(this.searchText)
-          .subscribe(r => this.fullTextSearchResult = r);
+          .subscribe(r => { if(!this.checkNoResult(r)) this.fullTextSearchResult = r; });
           break;
         case 'fuzzy' :
         case 'autocomplete' :
+          this.noResult = false;
           if (this.selectedBrand === '') {
             this.smartsearchService.searchProduct(this.searchText)
             .subscribe(r => this.fuzzySearchResult = transformFuzzyResult(r));
           } else {
-            this.smartsearchService.searchProductWithBrand(this.searchText)
+            this.smartsearchService.searchProductWithBrand(this.selectedBrand, this.searchText)
             .subscribe(r => this.fuzzySearchResult = transformFuzzyResult(r));
           }
           break;
       }
     }
+  }
+
+  checkNoResult(result: unknown[]): boolean {
+    return this.noResult = result?.length > 0 ? false : true;
   }
 
   removeSelectedBrand(){

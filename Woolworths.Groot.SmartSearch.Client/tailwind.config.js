@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   content: ['./src/**/*.{html,ts}', './projects/**/*.{html,ts}'],
   darkMode: 'class',
@@ -10,7 +12,11 @@ module.exports = {
       center: true,
       padding: '1.5rem',
     },
-    extend: {},
+    extend: {
+      colors: {
+        red: colors.red,
+      }
+    },
   },
   plugins: [],
 };

@@ -9,8 +9,9 @@ import { ProductSearchResponse } from './productSearchResponse';
   providedIn: 'root'
 })
 export class SmartsearchService {
-  searchProductWithBrand(searchText: string): Observable<ProductSearchResponse[]>{
-    throw new Error('Method not implemented.');
+  searchProductWithBrand(brand: string, searchText: string): Observable<ProductSearchResponse[]>{
+    const searchUrl = `${environment.smartSearchUrl}/api/ProductSearch?brand=${brand}&text=${searchText}`;
+    return this.http.get<ProductSearchResponse[]>(searchUrl);
   }
 
   constructor(private http: HttpClient) { }
