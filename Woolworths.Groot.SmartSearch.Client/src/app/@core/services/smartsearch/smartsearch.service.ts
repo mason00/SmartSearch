@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SmartSearchState } from '@core/store/index';
 import { environment } from '@env/environment';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { BrandSearchResponse } from './brandSearchResponse';
 import { ProductSearchResponse } from './productSearchResponse';
@@ -9,6 +11,10 @@ import { ProductSearchResponse } from './productSearchResponse';
   providedIn: 'root',
 })
 export class SmartsearchService {
+  constructor(private store: Store<SmartSearchState>, private http: HttpClient){
+    // this.store.select(selectSmartSearchState).subscribe(state => console.log(`link in store: ${state.link}`));
+  }
+
   saveSearchLinkOpenInfo(link: string, searchText: string | undefined) {
     console.log(`link: ${link}, searchText: ${searchText}`);
   }
@@ -20,8 +26,6 @@ export class SmartsearchService {
     const searchUrl = `${environment.smartSearchUrl}/api/ProductSearch?brand=${brand}&text=${searchText}`;
     return this.http.get<ProductSearchResponse[]>(searchUrl);
   }
-
-  constructor(private http: HttpClient) {}
 
   searchProduct(text: string): Observable<ProductSearchResponse[]> {
     console.log(`smartSearchUrl ${environment.smartSearchUrl}`);

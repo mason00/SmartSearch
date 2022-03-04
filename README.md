@@ -29,5 +29,5 @@ Mongo Atlas provider more text search options than mongodb server, like autocomp
 # TODO
 
 link on img, save the click with search context
-NgRx store to trigger link click action
+NgRx store to trigger link click action, v13 syntax, refer to https://github.com/joshuamorony/ngrx-ionic-example.git
 Split Product model and product fuzzy search result
