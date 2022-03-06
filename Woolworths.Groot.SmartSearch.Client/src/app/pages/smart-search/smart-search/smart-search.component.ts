@@ -3,8 +3,6 @@ import { BrandSearchResponse } from '@core/services/smartsearch/brandSearchRespo
 import { ProductSearchResponse } from '@core/services/smartsearch/productSearchResponse';
 import { SmartsearchService } from '@core/services/smartsearch/smartsearch.service';
 import { SmartSearchState } from '@core/store';
-import { linkClickedAction } from '@core/store/link-click.action';
-import { selectSmartSearchState } from '@core/store/link-click.selector';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { catchError, debounceTime, distinctUntilChanged, Observable, of, OperatorFunction, switchMap, tap } from 'rxjs';
@@ -29,8 +27,7 @@ export class SmartSearchComponent implements OnInit {
   constructor(private smartsearchService: SmartsearchService, private store: Store<SmartSearchState>) { }
 
   ngOnInit(): void {
-    this.store.dispatch(linkClickedAction({ payload: { stockCode: 2, link: 'test'}}));
-    this.store.select(selectSmartSearchState).subscribe(state => console.log(`link in store: ${state.link}`));
+
   }
 
   handlekeypress(e: KeyboardEvent) {

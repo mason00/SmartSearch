@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SmartsearchService } from '@core/services/smartsearch/smartsearch.service';
+import { linkClickedAction } from '@core/store/link-click.action';
 import { Store } from '@ngrx/store';
 import { SmartSearchState } from './../../../@core/store/index';
 
@@ -10,7 +11,7 @@ import { SmartSearchState } from './../../../@core/store/index';
 })
 export class StockLinkComponent implements OnInit {
   @Input() stockcode: number | undefined;
-  @Input() searchText: string | undefined;
+  @Input() searchText = '';
 
   constructor(private smartsearchService: SmartsearchService, private store: Store<SmartSearchState>) {}
 
@@ -18,12 +19,11 @@ export class StockLinkComponent implements OnInit {
 
   openStockLink() {
     const productLink = this.getStockLink();
-    // this.smartsearchService.saveSearchLinkOpenInfo(
-    //   productLink,
-    //   this.searchText,
-    // );
-    // this.store.dispatch(ProductLinkClicked({ linkClickInfo: { stockCode: this.stockcode, link: productLink}}))
-    // this.store.dispatch(new ProductLinkClicked({ stockCode: this.stockcode, link: productLink}));
+    this.smartsearchService.saveSearchLinkOpenInfo(
+      productLink,
+      this.searchText,
+    );
+    this.store.dispatch(linkClickedAction({ payload: { stockCode: 2, link: 'test', searchTeam: this.searchText}}));
   }
 
   getStockLink() {
