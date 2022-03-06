@@ -19,11 +19,7 @@ export class StockLinkComponent implements OnInit {
 
   openStockLink() {
     const productLink = this.getStockLink();
-    this.smartsearchService.saveSearchLinkOpenInfo(
-      productLink,
-      this.searchText,
-    );
-    this.store.dispatch(linkClickedAction({ payload: { stockCode: 2, link: 'test', searchTeam: this.searchText}}));
+    this.store.dispatch(linkClickedAction({ payload: { link: productLink, searchTeam: this.searchText}}));
   }
 
   getStockLink() {

@@ -6,6 +6,7 @@ import { environment } from '@env/environment';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { BrandSearchResponse } from './brandSearchResponse';
+import { LinkClickedData } from './LinkClickedDataRequest';
 import { ProductSearchResponse } from './productSearchResponse';
 
 @Injectable({
@@ -21,6 +22,8 @@ export class SmartsearchService {
 
   saveSearchLinkOpenInfo(link: string, searchText: string) {
     console.log(`link: ${link}, searchText: ${searchText}`);
+    const linkUrl = `${environment.smartSearchUrl}/api/Link`;
+    return this.http.post<LinkClickedData>(linkUrl, { link, searchTerm: searchText}).subscribe();
   }
 
   searchProductWithBrand(

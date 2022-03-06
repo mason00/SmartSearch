@@ -17,6 +17,6 @@ export const reducer = createReducer(
   initialState,
   on(
     linkClickedAction,
-    (state, {payload}) => ({...state, stockCode: payload.stockCode, link: payload.link}),
+    (state, {payload}) => ({...state, ...payload}),
   ),
 );
