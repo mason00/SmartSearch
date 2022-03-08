@@ -8,24 +8,24 @@
 </div> -->
 
 <table class="table-fixed text-lg mt-10">
-  <thead>
-    <tr class="text-left">
-      <th class="p-4 border-collapse border border-slate-400"></th>
-      <th class="p-4 border-collapse border border-slate-400">Name</th>
-      <th class="p-4 border-collapse border border-slate-400">Brand</th>
-      <th class="p-4 border-collapse border border-slate-400">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="border border-slate-300" *ngFor="let fuzzyResult of fuzzySearchResult">
-      <td class="p-4 border-collapse border border-slate-400">
-        <app-stock-link [stockcode]="fuzzyResult.stockcode" [searchText]="searchText"></app-stock-link>
-      </td>
-      <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.name"></span></td>
-      <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.brand"></span></td>
-      <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.description"></span></td>
-    </tr>
-  </tbody>
+    <thead>
+        <tr class="text-left">
+            <th class="p-4 border-collapse border border-slate-400"></th>
+            <th class="p-4 border-collapse border border-slate-400">Name</th>
+            <th class="p-4 border-collapse border border-slate-400">Brand</th>
+            <th class="p-4 border-collapse border border-slate-400">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="border border-slate-300" *ngFor="let fuzzyResult of fuzzySearchResult">
+            <td class="p-4 border-collapse border border-slate-400">
+                <app-stock-link [stockcode]="fuzzyResult.stockcode"></app-stock-link>
+            </td>
+            <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.name"></span></td>
+            <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.brand"></span></td>
+            <td class="p-4 border-collapse border border-slate-400"><span [innerHtml]="fuzzyResult.description"></span></td>
+        </tr>
+    </tbody>
 </table>
 
 <!-- <table mat-table [dataSource]="fuzzySearchResult" class="mat-elevation-z8">

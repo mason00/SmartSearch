@@ -1,23 +1,22 @@
-
 <table class="table-fixed text-lg mt-10">
-  <thead>
-    <tr class="text-left">
-      <th class="p-4 border-collapse border border-slate-400"></th>
-      <th class="p-4 border-collapse border border-slate-400">Name</th>
-      <th class="p-4 border-collapse border border-slate-400">Brand</th>
-      <th class="p-4 border-collapse border border-slate-400">Description</th>
-      <th class="p-4 border-collapse border border-slate-400">Score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="border border-slate-300" *ngFor="let fullTextResult of fullTextSearchResult">
-      <td class="p-4 border-collapse border border-slate-400">
-        <app-stock-link [stockcode]="fullTextResult.stockcode" [searchText]="searchText"></app-stock-link>
-      </td>
-      <td class="p-4 border-collapse border border-slate-400">{{fullTextResult.name}}</td>
-      <td class="p-4 border-collapse border border-slate-400">{{fullTextResult.brand}}</td>
-      <td class="p-4 border-collapse border border-slate-400">{{fullTextResult.description}}</td>
-      <td class="p-4 border-collapse border border-slate-400">{{fullTextResult.fullTextScore | number: '1.0-3'}}</td>
-    </tr>
-  </tbody>
+    <thead>
+        <tr class="text-left">
+            <th class="p-4 border-collapse border border-slate-400"></th>
+            <th class="p-4 border-collapse border border-slate-400">Name</th>
+            <th class="p-4 border-collapse border border-slate-400">Brand</th>
+            <th class="p-4 border-collapse border border-slate-400">Description</th>
+            <th class="p-4 border-collapse border border-slate-400">Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="border border-slate-300" *ngFor="let fullTextResult of fullTextSearchResult">
+            <td class="p-4 border-collapse border border-slate-400">
+                <app-stock-link [stockcode]="fullTextResult.stockcode"></app-stock-link>
+            </td>
+            <td class="p-4 border-collapse border border-slate-400">{{fullTextResult.name}}</td>
+            <td class="p-4 border-collapse border border-slate-400">{{fullTextResult.brand}}</td>
+            <td class="p-4 border-collapse border border-slate-400">{{fullTextResult.description}}</td>
+            <td class="p-4 border-collapse border border-slate-400">{{fullTextResult.fullTextScore | number: '1.0-3'}}</td>
+        </tr>
+    </tbody>
 </table>

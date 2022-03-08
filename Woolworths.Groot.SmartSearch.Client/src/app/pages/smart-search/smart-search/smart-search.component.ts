@@ -6,6 +6,7 @@ import { SmartSearchState } from '@core/store';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { catchError, debounceTime, distinctUntilChanged, Observable, of, OperatorFunction, switchMap, tap } from 'rxjs';
+import { selectSmartSearchState } from './../../../@core/store/link-click.selector';
 
 @Component({
   selector: 'app-smart-search',
@@ -27,7 +28,10 @@ export class SmartSearchComponent implements OnInit {
   constructor(private smartsearchService: SmartsearchService, private store: Store<SmartSearchState>) { }
 
   ngOnInit(): void {
-
+    this.store.select(selectSmartSearchState).subscribe(state => {
+      if (state.link)
+        this.smartsearchService.saveSearchLinkOpenInfo(state.link, this.searchText)
+    });
   }
 
   handlekeypress(e: KeyboardEvent) {
