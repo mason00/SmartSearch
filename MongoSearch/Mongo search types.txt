@@ -11,3 +11,16 @@ Compound index
 Order is important, first field in index is the main one, query uses first field will pickup this index, then the following field is used based on first field's result.
 It called index prefix.
 use explain() to see if index gets picked.
+
+Full text search sample:
+tuna
+bread
+text in description
+
+Fuzzy search sample:
+lovazza
+coffe
+mis spell, allow edit 2
+
+Autocomplete sample:
+lovazza
