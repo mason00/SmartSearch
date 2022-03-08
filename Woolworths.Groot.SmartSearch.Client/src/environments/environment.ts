@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: '',
-  smartSearchUrl: 'https://woolworthsgrootsmartsearch20220306124914.azurewebsites.net',
+  smartSearchUrl: 'http://localhost:5238',
 };
 
 /*
