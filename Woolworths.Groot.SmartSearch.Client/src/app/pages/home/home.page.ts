@@ -21,8 +21,9 @@ export class HomePage {
   }
 
   loginWithGoogle(): void {
+    const { root, userInfo } = ROUTER_UTILS.config.auth;
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
       .catch(err => console.error('google login', err))
-      .then(() => this.router.navigate(['/', ROUTER_UTILS.config.auth.root, ROUTER_UTILS.config.auth.userInfo]));
+      .then(() => this.router.navigate(['/', root, userInfo]));
   }
 }
