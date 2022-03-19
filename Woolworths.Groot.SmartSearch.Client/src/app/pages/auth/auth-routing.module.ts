@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ROUTER_UTILS } from '@core/utils/router.utils';
+import { UserInfoComponent } from '@pages/user-info/user-info.component';
 import { ForgotPasswordEmailSentPage } from './pages/forgot-password-email-sent/forgot-password-email-sent.page';
 import { ForgotPasswordPage } from './pages/forgot-password/forgot-password.page';
 import { PasswordResetFailedPage } from './pages/password-reset-failed/password-reset-failed.page';
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: ROUTER_UTILS.config.auth.passwordResetFailed,
     component: PasswordResetFailedPage,
+  },
+  {
+    path: ROUTER_UTILS.config.auth.userInfo,
+    component: UserInfoComponent,
   },
 ];
 
