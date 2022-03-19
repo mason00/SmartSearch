@@ -1,6 +1,7 @@
 export enum StorageItem {
   Auth = 'App/auth',
   Theme = 'App/theme',
+  GoogleIdToken = 'App/idToken',
 }
 
 export const getItem = (itemName: StorageItem): unknown | null => {

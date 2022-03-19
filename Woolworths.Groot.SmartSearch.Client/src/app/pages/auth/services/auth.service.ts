@@ -12,18 +12,20 @@ export class AuthService {
     return this.isLoggedIn$.getValue();
   }
 
-  signIn(): void {
+  signIn(idToken = ''): void {
     const token = Array(4)
       .fill(0)
       .map(() => Math.random() * 99)
       .join('-');
 
     setItem(StorageItem.Auth, token);
+    setItem(StorageItem.GoogleIdToken, idToken);
     this.isLoggedIn$.next(true);
   }
 
   signOut(): void {
     removeItem(StorageItem.Auth);
+    removeItem(StorageItem.GoogleIdToken);
     this.isLoggedIn$.next(false);
   }
 }
