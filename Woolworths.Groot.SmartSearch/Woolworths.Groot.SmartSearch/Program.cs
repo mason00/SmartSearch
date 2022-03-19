@@ -1,5 +1,10 @@
 using Duende.IdentityServer;
 using IdentityServerHost;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using System.Text.Json;
 using Woolworths.Groot.SmartSearch.MongoDb;
 using Woolworths.Groot.SmartSearch.Services;
 
@@ -19,6 +24,7 @@ builder.Services.AddScoped<IFuzzySearchOnProduct, FuzzySearchOnProduct>();
 builder.Services.AddScoped<ISaveSearchTermService, SaveSearchTermService>();
 builder.Services.AddScoped<IAutocompleteOnBrandService, AutocompleteOnBrandService>();
 builder.Services.AddScoped<ILinkService, LinkService>();
+builder.Services.AddSingleton<IAuthorizationHandler, MyApiHandler>();
 
 builder.Services.AddCors(options =>
 {
@@ -31,47 +37,70 @@ builder.Services.AddCors(options =>
     });
 });
 
-var identityBuilder = builder.Services.AddIdentityServer(options =>
-{
-    options.Events.RaiseErrorEvents = true;
-    options.Events.RaiseInformationEvents = true;
-    options.Events.RaiseFailureEvents = true;
-    options.Events.RaiseSuccessEvents = true;
+// Identity server
+//var identityBuilder = builder.Services.AddIdentityServer(options =>
+//{
+//    options.Events.RaiseErrorEvents = true;
+//    options.Events.RaiseInformationEvents = true;
+//    options.Events.RaiseFailureEvents = true;
+//    options.Events.RaiseSuccessEvents = true;
 
-    // see https://docs.duendesoftware.com/identityserver/v5/basics/resources
-    options.EmitStaticAudienceClaim = true;
-})
-                .AddTestUsers(TestUsers.Users)
-                ;
+//    // see https://docs.duendesoftware.com/identityserver/v5/basics/resources
+//    options.EmitStaticAudienceClaim = true;
+//})
+//                .AddTestUsers(TestUsers.Users)
+//                ;
 
-identityBuilder.AddInMemoryIdentityResources(Resources.Identity);
-identityBuilder.AddInMemoryApiScopes(Resources.ApiScopes);
-identityBuilder.AddInMemoryApiResources(Resources.ApiResources);
-identityBuilder.AddInMemoryClients(Clients.List);
+//identityBuilder.AddInMemoryIdentityResources(Resources.Identity);
+//identityBuilder.AddInMemoryApiScopes(Resources.ApiScopes);
+//identityBuilder.AddInMemoryApiResources(Resources.ApiResources);
+//identityBuilder.AddInMemoryClients(Clients.List);
 
 //// this is only needed for the JAR and JWT samples and adds supports for JWT-based client authentication
 //identityBuilder.AddJwtBearerClientAuthentication();
 
-builder.Services.AddAuthentication()
-    .AddOpenIdConnect("Google", "Sign-in with Google", options =>
+// google token
+builder.Services.AddAuthentication(
+    o =>
+        {
+            o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }
+    )
+    .AddJwtBearer(o =>
     {
-        options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-        options.ForwardSignOut = IdentityServerConstants.DefaultCookieAuthenticationScheme;
-
-        options.Authority = "https://accounts.google.com/";
-        options.ClientId = "535648816304-3euqfipgu7tbje7re64j9iqmskalsit3.apps.googleusercontent.com";
-        options.ClientSecret = "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";
-
-        options.CallbackPath = "/signin-google";
-        options.Scope.Add("email");
+        o.SecurityTokenValidators.Clear();
+        o.SecurityTokenValidators.Add(new GoogleTokenValidator());
     });
-//.AddGoogle("Google", options =>
-//{
-//    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
-//    options.ClientId = "535648816304-3euqfipgu7tbje7re64j9iqmskalsit3.apps.googleusercontent.com";
-//    options.ClientSecret = "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";
+// openid
+//builder.Services.AddAuthentication(
+//.AddOpenIdConnect(GoogleDefaults.AuthenticationScheme, GoogleDefaults.DisplayName, options =>
+//{
+//options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+//options.ForwardSignOut = IdentityServerConstants.DefaultCookieAuthenticationScheme;
+
+//options.Authority = "https://accounts.google.com/";
+//options.ClientId = "535648816304-dqqvv9tnv9e38vdo0debrov4ps63jdgg.apps.googleusercontent.com";
+//options.ClientSecret = "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";
+
+//options.CallbackPath = "/signin-google";
+//options.Scope.Add("email");
+//})
+//.AddJwtBearer(o =>
+//{
+//    o.SecurityTokenValidators.Clear();
+//    o.SecurityTokenValidators.Add(new GoogleTokenValidator());
+//    o.Audience = "535648816304-dqqvv9tnv9e38vdo0debrov4ps63jdgg.apps.googleusercontent.com";
 //});
+
+
+builder.Services.AddAuthorization(o => { 
+    o.AddPolicy("MyPolicy", policy =>
+    {
+        policy.AddRequirements(new MyApiRequirement());
+    });
+});
 
 var app = builder.Build();
 
@@ -89,7 +118,8 @@ app.UseRouting();
 
 app.UseCors();
 
-app.UseIdentityServer();
+//app.UseIdentityServer();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

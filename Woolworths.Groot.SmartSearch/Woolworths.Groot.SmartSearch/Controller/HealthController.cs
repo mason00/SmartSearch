@@ -1,6 +1,6 @@
 ﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Woolworths.Groot.SmartSearch.Model;
 
 namespace Woolworths.Groot.SmartSearch.Controller
 {
@@ -15,6 +15,7 @@ namespace Woolworths.Groot.SmartSearch.Controller
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult ValidateToken([FromHeader] string authorization)
         {
             var token = authorization.Split(' ')[1];
