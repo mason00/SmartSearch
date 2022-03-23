@@ -39,6 +39,10 @@ import { UserInfoComponent } from './pages/user-info/user-info.component';
     AuthModule.forRoot({
       domain: 'dev-5cv7cv5t.us.auth0.com',
       clientId: 'NbmjIboNZcAIeNqL8HXg94InZ7NnLrHC',
+
+      audience: 'https://woolworthsgrootsmartsearch20220220094337.azurewebsites.net/',
+
+      scope: 'read:hello',
     }),
   ],
   bootstrap: [AppComponent],

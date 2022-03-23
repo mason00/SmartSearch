@@ -36,5 +36,6 @@ export class HomePage {
 
   loginWithAuth0() {
     this.auth0.loginWithRedirect();
+    this.authService.signIn();
   }
 }

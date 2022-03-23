@@ -60,18 +60,29 @@ builder.Services.AddCors(options =>
 //identityBuilder.AddJwtBearerClientAuthentication();
 
 // google token
-builder.Services.AddAuthentication(
-    o =>
-        {
-            o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }
-    )
-    .AddJwtBearer(o =>
-    {
-        o.SecurityTokenValidators.Clear();
-        o.SecurityTokenValidators.Add(new GoogleTokenValidator());
-    });
+//builder.Services.AddAuthentication(
+//    o =>
+//        {
+//            o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//            o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//        }
+//    )
+//    .AddJwtBearer(o =>
+//    {
+//        o.SecurityTokenValidators.Clear();
+//        o.SecurityTokenValidators.Add(new GoogleTokenValidator());
+//    });
+
+// Auth0
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.Authority = "https://dev-5cv7cv5t.us.auth0.com/";
+    options.Audience = "https://woolworthsgrootsmartsearch20220220094337.azurewebsites.net/";
+});
 
 // openid
 //builder.Services.AddAuthentication(
