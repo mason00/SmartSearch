@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService as Auth0 } from '@auth0/auth0-angular';
 import { ThemeList, ThemeService } from '@core/services/theme';
 import { ROUTER_UTILS } from '@core/utils/router.utils';
 import { AuthService } from '@pages/auth/services/auth.service';
@@ -16,7 +17,8 @@ export class HomePage {
   constructor(private router: Router,
     private themeService: ThemeService,
     private socialAuthService: SocialAuthService,
-    private authService: AuthService) {}
+    private authService: AuthService,
+    private auth0: Auth0) {}
 
   onClickChangeTheme(theme: ThemeList): void {
     this.themeService.setTheme(theme);
@@ -30,5 +32,9 @@ export class HomePage {
         this.router.navigate(['/', root, userInfo]);
       })
       .catch(err => console.error('google login', err));
+  }
+
+  loginWithAuth0() {
+    this.auth0.loginWithRedirect();
   }
 }

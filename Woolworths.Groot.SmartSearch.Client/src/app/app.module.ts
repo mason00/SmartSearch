@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthModule } from '@auth0/auth0-angular';
 import { reducer } from '@core/store/link-click.reducer';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
@@ -35,6 +36,10 @@ import { UserInfoComponent } from './pages/user-info/user-info.component';
       maxAge: 50,
     }),
     SocialLoginModule,
+    AuthModule.forRoot({
+      domain: 'dev-5cv7cv5t.us.auth0.com',
+      clientId: 'NbmjIboNZcAIeNqL8HXg94InZ7NnLrHC',
+    }),
   ],
   bootstrap: [AppComponent],
 })

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { map, Observable } from 'rxjs';
 
@@ -10,7 +11,8 @@ import { map, Observable } from 'rxjs';
 export class UserInfoComponent implements OnInit {
   userName$ : Observable<SocialUser> | undefined = undefined;
 
-  constructor(private socialAuthService: SocialAuthService) { }
+  constructor(private socialAuthService: SocialAuthService,
+    public auth: AuthService) { }
 
   ngOnInit(): void {
     this.userName$ = this.socialAuthService.authState.pipe(
