@@ -1,10 +1,6 @@
-using Duende.IdentityServer;
-using IdentityServerHost;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
-using System.Text.Json;
+using Woolworths.Groot.SmartSearch.Hubs;
 using Woolworths.Groot.SmartSearch.MongoDb;
 using Woolworths.Groot.SmartSearch.Services;
 
@@ -16,6 +12,7 @@ builder.Services.AddSwaggerGen();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
 
 builder.Services.AddSingleton<IMongoClientProvider, MongoClientProvider>();
 builder.Services.AddScoped<IRentSearch, RentSearch>();
@@ -30,10 +27,13 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.SetIsOriginAllowed(org => true)
-          .AllowAnyMethod()
-          .AllowAnyHeader()
-          .AllowCredentials();
+        builder.WithOrigins(new[] {
+                "https://angularsmartsearch.azurewebsites.net",
+                "http://localhost:4200"
+                })
+            .WithMethods("Get", "Post")
+            .AllowAnyHeader()
+            .AllowCredentials();
     });
 });
 
@@ -121,15 +121,12 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
 }
 
-app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseCors();
 
-//app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -138,6 +135,8 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
+app.MapHub<SearchHub>("/searchhub");
 
 app.UseSwagger();
 app.UseSwaggerUI();

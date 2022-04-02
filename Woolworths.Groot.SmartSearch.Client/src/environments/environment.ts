@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: '',
-  smartSearchUrl: 'http://localhost:5238',
+  smartSearchUrl: 'https://localhost:7238',
 };
 
 /*

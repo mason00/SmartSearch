@@ -6,6 +6,7 @@ import { SmartSearchState } from '@core/store';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { catchError, debounceTime, distinctUntilChanged, Observable, of, OperatorFunction, switchMap, tap } from 'rxjs';
+import { SearchHubServiceService } from './../../../@core/services/searchHub/search-hub-service.service';
 import { selectSmartSearchState } from './../../../@core/store/link-click.selector';
 
 @Component({
@@ -25,7 +26,9 @@ export class SmartSearchComponent implements OnInit {
   fullTextSearchResult: ProductSearchResponse[] = [];
   autocompleteSearchResult: BrandSearchResponse[] = [];
 
-  constructor(private smartsearchService: SmartsearchService, private store: Store<SmartSearchState>) { }
+  constructor(private smartsearchService: SmartsearchService,
+    private store: Store<SmartSearchState>,
+    private SearchHubServiceService: SearchHubServiceService) { }
 
   ngOnInit(): void {
     this.store.select(selectSmartSearchState).subscribe(state => {

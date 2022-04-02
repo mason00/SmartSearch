@@ -11,7 +11,7 @@ namespace Woolworths.Groot.SmartSearch.Controller
         [HttpGet]
         public IActionResult Check()
         {
-            return Ok("live");
+            return Ok("0402 7:53");
         }
 
         [HttpPost]
