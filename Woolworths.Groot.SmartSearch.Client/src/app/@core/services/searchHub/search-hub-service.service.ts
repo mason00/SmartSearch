@@ -20,13 +20,31 @@ export class SearchHubServiceService {
             console.log("SignalR Connected.");
 
             await connection.invoke("SendMessage", 'test', 'hello');
+
+            connection.stream('FullTextSearchChannel')
+              .subscribe({
+                  next: (item) => {
+                    console.log('FullTextSearchChannel', item);
+                  },
+                  complete: () => {
+                    console.log('FullTextSearchChannel complete');
+                  },
+                  error: (err) => {
+                    console.log('FullTextSearchChannel error', err);
+                  },
+            });
         } catch (err) {
             console.log(err);
+            setInterval(start, 10000);
         }
     };
 
     connection.on('ReceiveMessage', function (name, message) {
       console.log('ReceiveMessage', name, message);
+    });
+
+    connection.on('OnFullTextSearch', function (term) {
+      console.log('OnFullTextSearch', term);
     });
 
     // Start the connection.

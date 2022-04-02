@@ -22,6 +22,7 @@ builder.Services.AddScoped<ISaveSearchTermService, SaveSearchTermService>();
 builder.Services.AddScoped<IAutocompleteOnBrandService, AutocompleteOnBrandService>();
 builder.Services.AddScoped<ILinkService, LinkService>();
 builder.Services.AddSingleton<IAuthorizationHandler, MyApiHandler>();
+builder.Services.AddSingleton<FullTextSearchStreamSource>();
 
 builder.Services.AddCors(options =>
 {
